@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse News - Kenya Youth</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #ff3e80;
+            --secondary: #00c2ff;
+            --accent: #9c27b0;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f0f0f0;
+            --gray: #a0a0a0;
+            --card-bg: rgba(30, 30, 40, 0.7);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* ===== SPLASH PAGE ===== */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a0633 0%, #0e1a40 100%), 
+                        url('https://images.unsplash.com/photo-1547891654-e66ed7ebb968?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
+            background-size: cover;
+            background-blend-mode: multiply;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1.2s ease, transform 1.2s ease;
+        }
+        
+        .splash-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 30px;
+        }
+        
+        .splash-logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 6rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            text-shadow: 0 5px 15px rgba(255, 62, 128, 0.3);
+            letter-spacing: 2px;
+        }
+        
+        .splash-message {
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            color: var(--light);
+            font-style: italic;
+            line-height: 1.4;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+        }
+        
+        .splash-message strong {
+            font-weight: 700;
+            color: var(--secondary);
+            font-style: normal;
+        }
+        
+        .enter-button {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            border: none;
+            color: white;
+            padding: 18px 60px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 30px;
+            border-radius: 50px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 8px 25px rgba(255, 62, 128, 0.4);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .enter-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20px;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(30deg);
+            transition: all 0.8s;
+        }
+        
+        .enter-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(255, 62, 128, 0.6);
+        }
+        
+        .enter-button:hover::after {
+            left: 120%;
+        }
+        
+        .splash-tagline {
+            position: absolute;
+            bottom: 30px;
+            font-size: 1rem;
+            color: var(--gray);
+            letter-spacing: 1px;
+        }
+        
+        /* ===== MAIN PAGE ===== */
+        .main-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a0630 100%);
+            opacity: 0.98;
+            z-index: -1;
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        /* Header Styles */
+        header {
+            background: rgba(10, 10, 20, 0.85);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .logo span {
+            color: var(--light);
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 8px 20px;
+            transition: var(--transition);
+            width: 300px;
+        }
+        
+        .search-box:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+        
+        .search-box input {
+            background: transparent;
+            border: none;
+            padding: 8px 15px;
+            color: var(--light);
+            font-size: 1rem;
+            width: 100%;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+        }
+        
+        .search-box i {
+            color: var(--gray);
+            cursor: pointer;
+        }
+        
+        /* Navigation */
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin-right: 30px;
+        }
+        
+        .nav-links li {
+            margin: 0 15px;
+        }
+        
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            position: relative;
+            padding: 8px 0;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-icons {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-icons li {
+            margin: 0 12px;
+        }
+        
+        .nav-icons a {
+            color: var(--light);
+            font-size: 1.3rem;
+            transition: var(--transition);
+        }
+        
+        .nav-icons a:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .mobile-toggle {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 100px 5% 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--light), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.4rem;
+            max-width: 800px;
+            margin-bottom: 40px;
+            color: var(--gray);
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Category Filters */
+        .category-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding: 0 5% 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: none;
+            color: var(--light);
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
+        }
+        
+        /* News Grid */
+        .section-title {
+            padding: 20px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            font-size: 2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+            margin-left: 20px;
+        }
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 20px 5% 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .news-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .news-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(255, 62, 128, 0.2);
+            border-color: rgba(255, 62, 128, 0.3);
+        }
+        
+        .card-image {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .card-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(156, 39, 176, 0.5);
+        }
+        
+        .card-content {
+            padding: 25px;
+        }
+        
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .card-category {
+            color: var(--secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .card-title {
+            margin: 10px 0 15px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.4;
+            transition: var(--transition);
+        }
+        
+        .news-card:hover .card-title {
+            color: var(--secondary);
+        }
+        
+        .card-excerpt {
+            color: var(--gray);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .card-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--secondary);
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--darker);
+        }
+        
+        .author-name {
+            font-weight: 600;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .action-btn {
+            color: var(--gray);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .action-btn:hover {
+            color: var(--primary);
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 20, 0.95);
+            padding: 60px 5% 30px;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto 50px;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-links a i {
+            margin-right: 10px;
+            color: var(--secondary);
+            width: 20px;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--light);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        
+        /* Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .pulse {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1100px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-toggle {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .splash-logo {
+                font-size: 4rem;
+            }
+            
+            .splash-message {
+                font-size: 1.4rem;
+            }
+            
+            .hero {
+                padding: 80px 5% 40px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box {
+                width: 200px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .splash-logo {
+                font-size: 3rem;
+            }
+            
+            .splash-message {
+                font-size: 1.2rem;
+            }
+            
+            .enter-button {
+                padding: 15px 40px;
+                font-size: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero-stats {
+                flex-wrap: wrap;
+            }
+            
+            .search-box {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-content">
+            <h1 class="splash-logo pulse">PULSE</h1>
+            <p class="splash-message"><i>Where <strong>Kenya's youth</strong> come to stay informed, inspired, and connected. Your pulse on what's happening now.</i></p>
+            <button class="enter-button" id="enterButton">Enter The Pulse</button>
+        </div>
+        <div class="splash-tagline">INFORM • INSPIRE • EMPOWER</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Background Elements -->
+        <div class="background-overlay"></div>
+        <div class="particles" id="particles"></div>
+        
+        <!-- Header -->
+        <header>
+            <div class="logo">PULSE</div>
+            
+            <div class="search-box">
+                <input type="text" placeholder="Search for news, sports, finance...">
+                <i class="fas fa-search"></i>
+            </div>
+            
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Kenya</a></li>
+                    <li><a href="#">World</a></li>
+                    <li><a href="#">Sports</a></li>
+                    <li><a href="#">Finance</a></li>
+                </ul>
+                
+                <ul class="nav-icons">
+                    <li><a href="#"><i class="fas fa-bell"></i></a></li>
+                    <li><a href="#"><i class="fas fa-user"></i></a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i></a></li>
+                </ul>
+            </nav>
+            
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Stay Ahead of the Curve</h1>
+            <p>Your source for the latest news, sports updates, and financial insights that matter to Kenya's youth</p>
+            
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">News Coverage</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Daily Updates</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1M+</div>
+                    <div class="stat-label">Youth Readers</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Filters -->
+        <div class="category-filters">
+            <button class="filter-btn active">All News</button>
+            <button class="filter-btn">Breaking</button>
+            <button class="filter-btn">Politics</button>
+            <button class="filter-btn">Technology</button>
+            <button class="filter-btn">Sports</button>
+            <button class="filter-btn">Finance</button>
+            <button class="filter-btn">Entertainment</button>
+            <button class="filter-btn">Lifestyle</button>
+        </div>
+
+        <!-- News Grid -->
+        <div class="section-title">Today's Top Stories</div>
+        
+        <div class="news-grid">
+            <!-- Card 1 -->
+            <div class="news-card">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1593111774240-d529f12e9b6a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80');">
+                    <div class="card-badge">Breaking</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-category">Politics</span>
+                        <span>2 hours ago</span>
+                    </div>
+                    <h3 class="card-title">Youth Leaders Meet President to Discuss New Opportunities</h3>
+                    <p class="card-excerpt">Kenyan youth representatives presented innovative solutions for job creation and education reform at State House today.</p>
+                    <div class="card-footer">
+                        <div class="card-author">
+                            <div class="author-avatar">JM</div>
+                            <div class="author-name">J. Mwangi</div>
+                        </div>
+                        <div class="card-actions">
+                            <div class="action-btn"><i class="far fa-bookmark"></i></div>
+                            <div class="action-btn"><i class="fas fa-share-alt"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="news-card">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1531415074968-036ba1b575da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80');">
+                    <div class="card-badge">Sports</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-category">Football</span>
+                        <span>5 hours ago</span>
+                    </div>
+                    <h3 class="card-title">Harambee Stars Qualify for Continental Championship</h3>
+                    <p class="card-excerpt">Kenya's national team secures historic victory against Senegal with a stunning last-minute goal from rising star Otieno.</p>
+                    <div class="card-footer">
+                        <div class="card-author">
+                            <div class="author-avatar">AW</div>
+                            <div class="author-name">A. Wanjiku</div>
+                        </div>
+                        <div class="card-actions">
+                            <div class="action-btn"><i class="far fa-bookmark"></i></div>
+                            <div class="action-btn"><i class="fas fa-share-alt"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 3 -->
+            <div class="news-card">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80');">
+                    <div class="card-badge">Finance</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-category">Tech & Money</span>
+                        <span>7 hours ago</span>
+                    </div>
+                    <h3 class="card-title">Youth-Oriented Fintech Apps Gain Massive Popularity</h3>
+                    <p class="card-excerpt">Mobile platforms developed by Kenyan startups are revolutionizing how young people save, invest, and manage money.</p>
+                    <div class="card-footer">
+                        <div class="card-author">
+                            <div class="author-avatar">PK</div>
+                            <div class="author-name">P. Kamau</div>
+                        </div>
+                        <div class="card-actions">
+                            <div class="action-btn"><i class="far fa-bookmark"></i></div>
+                            <div class="action-btn"><i class="fas fa-share-alt"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 4 -->
+            <div class="news-card">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1527689368864-3a821dbccc34?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80');">
+                    <div class="card-badge">Education</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-category">Innovation</span>
+                        <span>Yesterday</span>
+                    </div>
+                    <h3 class="card-title">Coding Bootcamps Transforming Youth Employment</h3>
+                    <p class="card-excerpt">Accelerated tech training programs report 85% job placement rate for graduates in Kenya's growing digital economy.</p>
+                    <div class="card-footer">
+                        <div class="card-author">
+                            <div class="author-avatar">SO</div>
+                            <div class="author-name">S. Omondi</div>
+                        </div>
+                        <div class="card-actions">
+                            <div class="action-btn"><i class="far fa-bookmark"></i></div>
+                            <div class="action-btn"><i class="fas fa-share-alt"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 5 -->
+            <div class="news-card">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80');">
+                    <div class="card-badge">World</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-category">Global Affairs</span>
+                        <span>Yesterday</span>
+                    </div>
+                    <h3 class="card-title">Kenyan Entrepreneurs Win International Innovation Award</h3>
+                    <p class="card-excerpt">Nairobi-based startup recognized in New York for developing affordable solar solutions for rural communities.</p>
+                    <div class="card-footer">
+                        <div class="card-author">
+                            <div class="author-avatar">NM</div>
+                            <div class="author-name">N. Muthoni</div>
+                        </div>
+                        <div class="card-actions">
+                            <div class="action-btn"><i class="far fa-bookmark"></i></div>
+                            <div class="action-btn"><i class="fas fa-share-alt"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 6 -->
+            <div class="news-card">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80');">
+                    <div class="card-badge">Culture</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-category">Entertainment</span>
+                        <span>Jun 28</span>
+                    </div>
+                    <h3 class="card-title">New Music Festival Aims to Showcase East African Talent</h3>
+                    <p class="card-excerpt">Nairobi to host the largest youth-focused music event in East Africa this December featuring over 100 artists.</p>
+                    <div class="card-footer">
+                        <div class="card-author">
+                            <div class="author-avatar">DW</div>
+                            <div class="author-name">D. Waweru</div>
+                        </div>
+                        <div class="card-actions">
+                            <div class="action-btn"><i class="far fa-bookmark"></i></div>
+                            <div class="action-btn"><i class="fas fa-share-alt"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- More News Section -->
+        <div class="section-title">Latest in Finance</div>
+        <div class="news-grid">
+            <!-- Additional cards would go here -->
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>PULSE News</h3>
+                    <p>Your trusted source for news, sports, and finance that matters to Kenya's youth. Empowering the next generation with information.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Categories</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Kenya News</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> World Affairs</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Sports</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Finance & Business</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Technology</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Entertainment</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Careers</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Advertise</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to get daily updates straight to your inbox.</p>
+                    <div class="search-box" style="width:100%; margin-top:20px;">
+                        <input type="text" placeholder="Your email address">
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2023 PULSE News. All Rights Reserved. Designed for Kenya's Youth.
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Splash screen functionality
+        document.getElementById('enterButton').addEventListener('click', function() {
+            const splash = document.getElementById('splashScreen');
+            splash.style.opacity = '0';
+            splash.style.transform = 'scale(1.1)';
+            
+            setTimeout(function() {
+                splash.style.display = 'none';
+                const main = document.getElementById('mainContent');
+                main.style.display = 'block';
+                
+                setTimeout(function() {
+                    main.style.opacity = '1';
+                    createParticles();
+                }, 100);
+            }, 1200);
+        });
+        
+        // Create dynamic background particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const colors = ['#ff3e80', '#00c2ff', '#9c27b0', '#00ff9d'];
+            
+            for (let i = 0; i < 80; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = Math.random() * 5 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.opacity = Math.random() * 0.6 + 0.1;
+                particle.style.boxShadow = '0 0 10px currentColor';
+                
+                particlesContainer.appendChild(particle);
+                
+                // Animate particles
+                animateParticle(particle);
+            }
+        }
+        
+        function animateParticle(el) {
+            const startX = Math.random() * 100;
+            const startY = Math.random() * 100;
+            const endX = Math.random() * 100;
+            const endY = Math.random() * 100;
+            
+            el.style.left = startX + '%';
+            el.style.top = startY + '%';
+            
+            const duration = Math.random() * 20000 + 20000;
+            
+            const keyframes = [
+                { transform: 'translate(0, 0)' },
+                { transform: `translate(${endX - startX}vw, ${endY - startY}vh)` }
+            ];
+            
+            const options = {
+                duration: duration,
+                iterations: Infinity,
+                direction: 'alternate',
+                easing: 'ease-in-out'
+            };
+            
+            el.animate(keyframes, options);
+        }
+        
+        // Category filter buttons
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Card hover effect enhancement
+        const cards = document.querySelectorAll('.news-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const angleY = (x - centerX) / 25;
+                const angleX = (centerY - y) / 25;
+                
+                this.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateZ(20px)`;
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+            });
+        });
+    </script>
+</body>
+</html>
